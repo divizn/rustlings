@@ -27,7 +27,56 @@ mod my_module {
     use super::Command;
 
     // TODO: Complete the function as described above.
-    // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> { 
+        let mut output: Vec<String> = Vec::new();
+        
+        for string in input {
+            match string.1 {
+                Command::Uppercase => output.push(string.0.to_uppercase()),
+                Command::Trim => output.push(string.0.trim().to_string()),
+                Command::Append(x) => {
+                    let mut s = string.0;
+                    for _ in 0..x {
+                        s += "bar";
+                    }
+                    output.push(s.clone());
+                }
+
+            };
+        };
+
+        output
+    }
+    // pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+    //     let mut output = Vec::new();
+
+    //     for (string, command) in input {
+    //         // Create the new string.
+    //         let new_string = match command {
+    //             Command::Uppercase => string.to_uppercase(),
+    //             Command::Trim => string.trim().to_string(),
+    //             Command::Append(n) => string + &"bar".repeat(n),
+    //         };
+
+    //         // Push the new string to the output vector.
+    //         output.push(new_string);
+    //     }
+
+    //     output
+    // }
+
+    // Equivalent to `transform` but uses an iterator instead of a loop for
+    // comparison. Don't worry, we will practice iterators later ;)
+    // pub fn transformer_iter(input: Vec<(String, Command)>) -> Vec<String> {
+    //     input
+    //         .into_iter()
+    //         .map(|(string, command)| match command {
+    //             Command::Uppercase => string.to_uppercase(),
+    //             Command::Trim => string.trim().to_string(),
+    //             Command::Append(n) => string + &"bar".repeat(n),
+    //         })
+    //         .collect()
+    // }
 }
 
 fn main() {
@@ -37,7 +86,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    // use ???;
+    use super::my_module::transformer;
     use super::Command;
 
     #[test]
