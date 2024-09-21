@@ -12,9 +12,20 @@ fn main() {
 
     let string1 = String::from("long string is long");
     let result;
+    let string2 = String::from("xyz");
     {
-        let string2 = String::from("xyz");
         result = longest(&string1, &string2);
     }
     println!("The longest string is '{result}'");
+
+    // let string1 = String::from("long string is long");
+    // let result;
+    // {
+    //     let string2 = String::from("xyz");
+    //     result = longest(&string1, &string2);
+    //     Solution2: You can move the print statement into the inner block so
+    //     that it is executed before `string2` is dropped.
+    //     println!("The longest string is '{result}'");
+    //     `string2` dropped here (end of the inner scope).
+    // }
 }
