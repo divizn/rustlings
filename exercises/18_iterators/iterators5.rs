@@ -28,6 +28,15 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // `map` is a hash map with `String` keys and `Progress` values.
     // map = { "variables1": Complete, "from_str": None, … }
+    let mut count: usize = 0;
+    map.iter().for_each(| val | {
+        if *val.1 == value { count += 1 };
+    });
+
+    count
+
+    // more elegant solution
+    // map.values().filter(|val| **val == value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -48,7 +57,37 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // `collection` is a slice of hash maps.
     // collection = [{ "variables1": Complete, "from_str": None, … },
     //               { "variables2": Complete, … }, … ]
+    let mut count: usize = 0;
+    collection.iter().for_each(| map | {
+        map.iter().for_each(| val | {
+            if *val.1 == value { count += 1 }
+        });
+    });
+
+    count
+
+//     collection
+//     .iter()
+//     .map(|map| count_iterator(map, value))
+//     .sum()
+// }
 }
+// Equivalent to `count_collection_iterator` and `count_iterator`, iterating as
+// if the collection was a single container instead of a container of containers
+// (and more accurately, a single iterator instead of an iterator of iterators).
+// fn count_collection_iterator_flat(
+//     collection: &[HashMap<String, Progress>],
+//     value: Progress,
+// ) -> usize {
+//     `collection` is a slice of hash maps.
+//     collection = [{ "variables1": Complete, "from_str": None, … },
+//                   { "variables2": Complete, … }, … ]
+//     collection
+//         .iter()
+//         .flat_map(HashMap::values) // or just `.flatten()` when wanting the default iterator (`HashMap::iter`)
+//         .filter(|val| **val == value)
+//         .count()
+// }
 
 fn main() {
     // You can optionally experiment here.

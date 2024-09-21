@@ -10,6 +10,25 @@ fn factorial(num: u64) -> u64 {
     // - additional variables
     // For an extra challenge, don't use:
     // - recursion
+    (1..=num).fold(1, |acc, x | {
+        x * acc
+    })
+
+//  Equivalent to `factorial_fold` but with a built-in method that is suggested
+//  by Clippy.
+//  fn factorial_product(num: u64) -> u64 {
+//     (2..=num).product()
+//  }
+
+// fn factorial_for(num: u64) -> u64 {
+//     let mut result = 1;
+
+//     for x in 2..=num {
+//         result *= x;
+//     }
+
+//     result
+// }
 }
 
 fn main() {
