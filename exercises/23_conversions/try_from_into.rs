@@ -28,14 +28,44 @@ enum IntoColorError {
 impl TryFrom<(i16, i16, i16)> for Color {
     type Error = IntoColorError;
 
-    fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {}
+    fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+        let (red, green, blue) = tuple;
+        if !(0..=255).contains(&red) || !(0..=255).contains(&green) || !(0..=255).contains(&blue) {
+            return Err(Self::Error::IntConversion)
+        }
+        let (r, g, b) = (red as u8, green as u8, blue as u8);
+
+        Ok(Color { red: r, green: g, blue: b })
+    }
+
+    // exact same solution below works for all 3, just need to check length for slice
+    // fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
+    //     let (Ok(red), Ok(green), Ok(blue)) = (
+    //         u8::try_from(tuple.0),
+    //         u8::try_from(tuple.1),
+    //         u8::try_from(tuple.2),
+    //     ) else {
+    //         return Err(IntoColorError::IntConversion);
+    //     };
+
+    //     Ok(Self { red, green, blue })
+    // }
 }
 
 // TODO: Array implementation.
 impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
 
-    fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {}
+    fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
+        let (red, green, blue) = (arr[0], arr[1], arr[2]);
+        if !(0..=255).contains(&red) || !(0..=255).contains(&green) || !(0..=255).contains(&blue) {
+            return Err(Self::Error::IntConversion)
+        }
+        let (r, g, b) = (red as u8, green as u8, blue as u8);
+
+        Ok(Color { red: r, green: g, blue: b })
+
+    }
 }
 
 // TODO: Slice implementation.
@@ -43,7 +73,19 @@ impl TryFrom<[i16; 3]> for Color {
 impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
 
-    fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {}
+    fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
+        if slice.len() != 3 { 
+            return Err(Self::Error::BadLen) 
+        }
+        let (red, green, blue) = (slice[0], slice[1], slice[2]);
+        if !(0..=255).contains(&red) || !(0..=255).contains(&green) || !(0..=255).contains(&blue) {
+            return Err(Self::Error::IntConversion)
+        }
+        let (r, g, b) = (red as u8, green as u8, blue as u8);
+
+        Ok(Color { red: r, green: g, blue: b })
+    }
+
 }
 
 fn main() {
